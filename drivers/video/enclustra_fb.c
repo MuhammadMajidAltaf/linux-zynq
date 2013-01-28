@@ -19,6 +19,8 @@
 #define DRIVER_DESC	                    "Enclustra GmbH Frambuffer for TFT"
 #define DRIVER_VERSION                  "1.00"
 
+static int available = 0;
+module_param(available, int, 0);
 /*****************************************************************************/
 #ifdef CONFIG_FB_ENCLUSTRA_DEBUG
 unsigned int enclustra_fb_debuglevel    = 3;
@@ -310,6 +312,12 @@ static int __devinit enclustra_fb_probe(struct platform_device *pdev)
 
 	printk(KERN_ERR "%s : %s version %s %s\n", DRIVER_NAME, DRIVER_DESC, DRIVER_VERSION, DRIVER_DEBUG);
 
+    if(available == 0) 
+    {
+        ret = -ENOENT;
+        goto err_no_tft_available;
+    }
+
     fb = kzalloc(sizeof(*fb), GFP_KERNEL);
     if(fb == NULL) {
         DPRINTK(3, "kzalloc failed\n");
@@ -431,6 +439,7 @@ err_request_mem_region_failed:
 err_platform_get_resource_failed:
     kfree(fb);
 err_fb_alloc_failed:
+err_no_tft_available:
     return ret;
 }
 
