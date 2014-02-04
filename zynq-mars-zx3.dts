@@ -181,7 +181,7 @@
 			reg = <0xf8f02000 0x1000>;
 		};
 
-		ps7-qspi@e000d000 {
+/*		ps7-qspi@e000d000 {
 			clock-names = "ref_clk", "aper_clk";
 			clocks = <0x3 0xa 0x3 0x2b>;
 			compatible = "xlnx,ps7-qspi-1.00.a";
@@ -235,7 +235,7 @@
 			compatible = "xlnx,ps7-qspi-linear-1.00.a";
 			reg = <0xfc000000 0x1000000>;
 		};
-
+*/
 		ps7-scugic@f8f01000 {
 			#address-cells = <0x2>;
 			#interrupt-cells = <0x3>;
@@ -299,6 +299,34 @@
 			};
 		};
 
+                i2c0: i2c@e0004000 {
+                        compatible = "xlnx,ps7-i2c-1.00.a";
+                        clocks = <0x3 38>;
+                        reg = <0xE0004000 0x1000>;
+                        interrupts = <0 25 4>;
+                        interrupt-parent = <0x2>;
+                        bus-id = <0>;
+                        input-clk = <111111111>;
+                        i2c-clk = <100000>;
+
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+                };
+
+                i2c1: i2c@e0005000 {
+                        compatible = "xlnx,ps7-i2c-1.00.a";
+                        clocks = <0x3 39>;
+                        reg = <0xE0005000 0x1000>;
+                        interrupts = <0 48 4>;
+                        interrupt-parent = <0x2>;
+                        bus-id = <1>;
+                        input-clk = <111111111>;
+                        i2c-clk = <100000>;
+
+                        #address-cells = <1>;
+                        #size-cells = <0>;
+                };
+
 		ps7-ttc@f8001000 {
 			clocks = <0x3 0x6>;
 			compatible = "xlnx,ps7-ttc-1.00.a", "cdns,ttc";
@@ -331,12 +359,12 @@
 			reg = <0xe0002000 0x1000>;
 		};
 
-		ps7-xadc@f8007100 {
+/*		ps7-xadc@f8007100 {
 			clocks = <0x3 0xc>;
 			compatible = "xlnx,ps7-xadc-1.00.a";
 			interrupt-parent = <0x2>;
 			interrupts = <0x0 0x7 0x4>;
 			reg = <0xf8007100 0x20>;
-		};
+		};*/
 	};
 };
