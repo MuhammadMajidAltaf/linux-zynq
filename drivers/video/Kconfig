@@ -2430,6 +2430,23 @@ config FB_MXS
 	help
 	  Framebuffer support for the MXS SoC.
 
+config FB_ENCLUSTRA
+       tristate "Enclustra TFT controler frame buffer support"
+       depends on FB 
+       select FB_CFB_FILLRECT
+       select FB_CFB_COPYAREA
+       select FB_CFB_IMAGEBLIT
+       help
+         Include support for the Enclustra TFT controler.
+         Supports currently only one resolution: 800x480
+         with 16bit color debth with 5:6:5 RGB
+
+config FB_ENCLUSTRA_DEBUG
+       bool "Debugging"
+       depends on FB_ENCLUSTRA 
+       help
+         This turns on debugging for the Enclustra FB
+
 config FB_PUV3_UNIGFX
 	tristate "PKUnity v3 Unigfx framebuffer support"
 	depends on FB && UNICORE32 && ARCH_PUV3
