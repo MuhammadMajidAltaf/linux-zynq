@@ -232,7 +232,7 @@ static int enclustra_fb_mmap(struct fb_info *fb, struct vm_area_struct *vma)
 		return -EAGAIN;
 	}  
   
-    vma->vm_flags |= VM_RESERVED;	/* avoid to swap out this VMA */
+    vma->vm_flags |= VM_IO; /* avoid to swap out this VMA */
 	return 0;;
 }
 
@@ -301,7 +301,7 @@ static int enclustra_fb_free_and_unmap_video_memory(struct enclustra_fb *fb)
 
 
 /*****************************************************************************/
-static int __devinit enclustra_fb_probe(struct platform_device *pdev)
+static int enclustra_fb_probe(struct platform_device *pdev)
 {
     int ret;
     struct enclustra_fb *fb;
@@ -310,7 +310,7 @@ static int __devinit enclustra_fb_probe(struct platform_device *pdev)
     unsigned long reg;
     struct resource *mem;
 
-	printk(KERN_ERR "%s : %s version %s %s\n", DRIVER_NAME, DRIVER_DESC, DRIVER_VERSION, DRIVER_DEBUG);
+    printk(KERN_ERR "%s : %s version %s\n", DRIVER_NAME, DRIVER_DESC, DRIVER_VERSION);
 
     if(available == 0) 
     {
@@ -445,7 +445,7 @@ err_no_tft_available:
 
 
 /*****************************************************************************/
-static int __devexit enclustra_fb_remove(struct platform_device *pdev)
+static int enclustra_fb_remove(struct platform_device *pdev)
 {
     struct enclustra_fb *fb = dev_get_drvdata(&pdev->dev);
 
@@ -463,18 +463,16 @@ static int __devexit enclustra_fb_remove(struct platform_device *pdev)
 
 
 /*****************************************************************************/
-static struct of_device_id enclustra_fb_of_match[] __devinitdata = {
+static struct of_device_id enclustra_fb_of_match[] = {
     { .compatible = "enclustra,enclustra-fb", },
     {},
 };
-
-MODULE_DEVICE_TABLE(of, enclustra_fb_of_match);
 
 
 /*****************************************************************************/
 static struct platform_driver enclustra_fb_of_driver = {
     .probe = enclustra_fb_probe,
-    .remove = __devexit_p(enclustra_fb_remove),
+    .remove = enclustra_fb_remove,
     .driver = {
         .name = DRIVER_NAME,
         .owner = THIS_MODULE,
