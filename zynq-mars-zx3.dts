@@ -13,7 +13,7 @@
 	};
 
 	chosen {
-		bootargs = "console=ttyPS0,115200 root=/dev/ram rw earlyprintk";
+		bootargs = "console=ttyPS0,115200 root=/dev/ram rw earlyprintk enclustra_fb.available=1";
 		linux,stdout-path = "/amba@0/serial@e0001000";
 	};
 
@@ -311,20 +311,15 @@
 
                         #address-cells = <1>;
                         #size-cells = <0>;
-                };
-
-                i2c1: i2c@e0005000 {
-                        compatible = "xlnx,ps7-i2c-1.00.a";
-                        clocks = <0x3 39>;
-                        reg = <0xE0005000 0x1000>;
-                        interrupts = <0 48 4>;
-                        interrupt-parent = <0x2>;
-                        bus-id = <1>;
-                        input-clk = <111111111>;
-                        i2c-clk = <100000>;
-
-                        #address-cells = <1>;
-                        #size-cells = <0>;
+                        touch@38 {
+                                 compatible = "edt-ft5x06";
+                                 reg = <0x38>;
+                               /*  interrupt-parent = <&gpio2>;
+                                 interrupts = <5 0>;
+                                 wakeup-gpios = <&gpio1 9 0>;
+                                 reset-gpios = <&gpio2 6 1>;
+                                 wakeup-gpios = <&gpio4 9 0>; */
+                        };
                 };
 
 		ps7-ttc@f8001000 {
@@ -358,6 +353,12 @@
 			phy_type = "ulpi";
 			reg = <0xe0002000 0x1000>;
 		};
+
+                tft@6C000000 {
+                        compatible = "enclustra,enclustra-fb";
+                        reg = <0x6C000000 0x10000>;
+                };
+
 
 /*		ps7-xadc@f8007100 {
 			clocks = <0x3 0xc>;
